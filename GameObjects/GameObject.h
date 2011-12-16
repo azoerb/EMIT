@@ -56,8 +56,18 @@ public:
     vec2 getDimensions() { return dimensions; }
     void setDimensions(vec2 dim) { dimensions = dim; }
     
-    std::vector<sf::Vector2f> getPoints() { return points; }
-    void setPoints(std::vector<vec2> newPoints) { points = newPoints; }
+    std::vector<vec2> getPoints() {
+        std::vector<vec2> newPoints = std::vector<vec2>(points);
+        vec2 newPosition = position;
+        for (int i = 0; i < newPoints.size(); i++) {
+            newPoints[i] += newPosition;
+        }
+        return newPoints;
+    }
+    
+    void setPoints(std::vector<vec2> newPoints) {
+        points = std::vector<vec2>(newPoints);
+    }
     
     sf::Sprite* getSprite() {
         update();

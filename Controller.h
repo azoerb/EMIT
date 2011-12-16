@@ -9,7 +9,9 @@
 
 #pragma once
 
+#include "Constants.h"
 #include <SFML/Graphics.hpp>
+#include <chipmunk.h>
 
 #define vec2 sf::Vector2f
 
@@ -27,6 +29,11 @@ private:
     LevelObject* map;
     
     float elapsedTime;
+    
+    cpShape* ballShape;
+    cpBody* ballBody;
+    cpSpace* space;
+    cpShape *ground;
     
 public:
     Controller();

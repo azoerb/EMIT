@@ -11,6 +11,7 @@
 #include "GameObjects/GameObject.h"
 #include "GameObjects/LevelObject.h"
 #include <math.h>
+#include <stdio.h>
 
 #define WINDOW_WIDTH 1000
 #define WINDOW_HEIGHT 800
@@ -28,6 +29,43 @@ Controller::Controller() {
     
     loadResources();
     initializeObjects();
+    
+    // cpVect is a 2D vector and cpv() is a shortcut for initializing them.
+    cpVect gravity = cpv(0, .001);
+    
+    // Create an empty space.
+    space = cpSpaceNew();
+    cpSpaceSetGravity(space, gravity);
+    
+    // Add a static line segment shape for the ground.
+    // We'll make it slightly tilted so the ball will roll off.
+    // We attach it to space->staticBody to tell Chipmunk it shouldn't be movable.
+    ground = cpSegmentShapeNew(space->staticBody, cpv(-10, 300), cpv(400, 350), 0);
+    cpShapeSetFriction(ground, FRICTION_CONSTANT);
+    cpSpaceAddShape(space, ground);
+    
+    // Now let's make a ball that falls onto the line and rolls off.
+    // First we need to make a cpBody to hold the physical properties of the object.
+    // These include the mass, position, velocity, angle, etc. of the object.
+    // Then we attach collision shapes to the cpBody to give it a size and shape.
+    
+    cpFloat radius = 5;
+    cpFloat mass = .0001;
+    
+    // The moment of inertia is like mass for rotation
+    // Use the cpMomentFor*() functions to help you approximate it.
+    cpFloat moment = cpMomentForBox(mass, radius, radius);
+    
+    // The cpSpaceAdd*() functions return the thing that you are adding.
+    // It's convenient to create and add an object in one line.
+    ballBody = cpSpaceAddBody(space, cpBodyNew(mass, moment));
+    cpBodySetPos(ballBody, cpv(50, 15));
+    
+    // Now we create the collision shape for the ball.
+    // You can create multiple collision shapes that point to the same body.
+    // They will all be attached to the body and move around to follow it.
+    ballShape = cpSpaceAddShape(space, cpBoxShapeNew(ballBody, radius, radius));
+    cpShapeSetFriction(ballShape, 0.7);    
 }
 
 Controller::~Controller() {
@@ -36,6 +74,13 @@ Controller::~Controller() {
     if (bird) { delete bird; }
     if (mapImg) { delete mapImg; }
     if (map) { delete map; }
+    
+    
+    // Clean up our objects and exit!
+    cpShapeFree(ballShape);
+    cpBodyFree(ballBody);
+    cpShapeFree(ground);
+    cpSpaceFree(space);
 }
 
 void Controller::mainLoop() {
@@ -49,8 +94,21 @@ void Controller::update() {
     processEvents();
     
     elapsedTime = window->GetFrameTime();
-    
-    // Move the sprite
+        
+    // Now that it's all set up, we simulate all the objects in the space by
+    // stepping forward through time in small increments called steps.
+    // It is *highly* recommended to use a fixed size time step.
+    cpFloat timeStep = 1.0/60.0;
+    for(cpFloat time = 0; time < 2; time += timeStep){
+        cpVect pos = cpBodyGetPos(ballBody);
+        cpVect vel = cpBodyGetVel(ballBody);
+        printf("%f, %f\n", pos.x, pos.y);
+        bird->setPosition(vec2(pos.x, pos.y));
+        
+        cpSpaceStep(space, timeStep);
+    }
+            
+/*    // Move the sprite
     if (window->GetInput().IsKeyDown(sf::Key::Left)) {
         if (map->getPosition().x < 0) {
             map->setPosition(map->getPosition() + vec2(100 * elapsedTime, 0));
@@ -72,71 +130,7 @@ void Controller::update() {
     }
     
     bird->changePosition(bird->getVelocity());
-    checkCollision(bird);
-}
-
-void Controller::checkCollision(GameObject* go) {
-    std::vector<vec2> points = go->getPoints();
-    std::vector<vec2> mapPoints = map->getPoints();
-    
-    // Translate collision points to player position
-    for (int i = 0; i < points.size(); i++) {
-        points[i] += go->getPosition();
-    }
-    for (int j = 0; j < mapPoints.size(); j++) {
-        mapPoints[j] += map->getPosition();
-    }
-    
-    for (int i = 0; i < points.size() - 1; i++) {
-        for (int j = 0; j < mapPoints.size() - 1; j++) {
-            while (checkLineCollision(points[i], points[i + 1], mapPoints[j], mapPoints[j + 1])) {
-                float slope;
-                if (mapPoints[j + 1].x != mapPoints[j].x) {
-                    slope = (mapPoints[j + 1].y - mapPoints[j].y) / (mapPoints[j + 1].x - mapPoints[j].x);
-                } else {
-                    slope = MAX_CLIMABLE_SLOPE + 1;
-                }
-                printf("%f\n", slope);
-                if (fabs(slope) <= MAX_CLIMABLE_SLOPE) {
-                    go->changePosition(vec2(0.0, -0.5));
-                    for (int i = 0; i < points.size(); i++) {
-                        points[i] += vec2(0.0, -0.5);
-                    }
-                } else {
-                    go->changePosition(vec2(-0.5, 0.0));
-                    for (int i = 0; i < points.size(); i++) {
-                        points[i] += vec2(-0.5, 0.0);
-                    }
-                }
-            }
-        }
-    }
-}
-
-// Collision detection algorithm.  Checks whether two lines are overlapping.
-bool Controller::checkLineCollision(vec2 start1, vec2 end1, vec2 start2, vec2 end2) { 
-	vec2 line1 = vec2(end1.x - start1.x, end1.y - start1.y);
-	vec2 line2 = vec2(end2.x - start2.x, end2.y - start2.y);
-    
-	float b_dot_d_perp = line1.x * line2.y - line1.y * line2.x;
-	if(b_dot_d_perp == 0) {
-		return false;
-	}
-    
-	float cx = start2.x - start1.x;
-	float cy = start2.y - start1.y;
-    
-	float t = (cx * line2.y - cy * line2.x) / b_dot_d_perp;
-	if(t < 0 || t > 1) {
-		return false;
-	}
-    
-	float u = (cx * line1.y - cy * line1.x) / b_dot_d_perp;
-	if(u < 0 || u > 1) { 
-		return false;
-	}
-    
-	return true;
+*/
 }
 
 void Controller::draw() {
@@ -181,7 +175,7 @@ void Controller::initializeObjects() {
     
     map = new LevelObject(mapImg);
     std::vector<vec2> mapPoints;
-    mapPoints.push_back(vec2(20, WINDOW_HEIGHT));
-    mapPoints.push_back(vec2(50, 0));
+    mapPoints.push_back(vec2(20, WINDOW_HEIGHT - 100));
+    mapPoints.push_back(vec2(500, WINDOW_HEIGHT - 200));
     map->setPoints(mapPoints);
 }
