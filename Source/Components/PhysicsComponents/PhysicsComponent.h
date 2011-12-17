@@ -38,6 +38,10 @@ public:
         return cpBodyGetVel(body);   
     }
     
+    cpVect getRotation() {
+        return cpBodyGetRot(body);
+    }
+    
     void setPosition(cpVect pos) {
         cpBodySetPos(body, pos);
     }

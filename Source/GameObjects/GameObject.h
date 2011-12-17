@@ -11,6 +11,8 @@
 
 #include "AllComponents.h"
 
+using sf::Vector2f;
+
 class GameObject {
 private:
     PhysicsComponent* physicsComponent;
@@ -30,7 +32,8 @@ public:
         physicsComponent->update(elapsedTime);
         
         cpVect pos = physicsComponent->getPosition();
-        renderableComponent->update(elapsedTime, sf::Vector2f(pos.x, pos.y));
+        cpVect rot = physicsComponent->getRotation();
+        renderableComponent->update(elapsedTime, Vector2f(pos.x, pos.y), Vector2f(rot.x, rot.y));
     }
     
     Component* getComponent(ComponentType type) {

@@ -12,11 +12,13 @@
 #include "Component.h"
 #include <SFML/Graphics.hpp>
 
+using sf::Vector2f;
+
 class RenderableComponent : public Component {
 private:
     sf::Sprite* sprite;
     
-    void updatePosition(sf::Vector2f pos);
+    void updateSprite(Vector2f pos, Vector2f rot);
     
 public:
     RenderableComponent(sf::Image* img);
@@ -26,5 +28,5 @@ public:
     
     sf::Sprite* getSprite();
     
-    void update(float elapsedTime, sf::Vector2f pos);
+    void update(float elapsedTime, Vector2f pos, Vector2f rot);
 };

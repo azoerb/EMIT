@@ -26,10 +26,11 @@ sf::Sprite* RenderableComponent::getSprite() {
     return sprite;
 }
 
-void RenderableComponent::update(float elapsedTime, sf::Vector2f pos) {
-    updatePosition(pos);
+void RenderableComponent::update(float elapsedTime, Vector2f pos, Vector2f rot) {
+    updateSprite(pos, rot);
 }
 
-void RenderableComponent::updatePosition(sf::Vector2f pos) {
+void RenderableComponent::updateSprite(Vector2f pos, Vector2f rot) {
     sprite->SetPosition(pos.x, pos.y);
+    sprite->SetRotation(rot.x);
 }
