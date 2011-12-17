@@ -7,4 +7,9 @@
  *
  */
 
+#pragma once
+
 const int FRICTION_CONSTANT = 1000;
+
+const int WINDOW_WIDTH = 1000;
+const int WINDOW_HEIGHT = 800;
