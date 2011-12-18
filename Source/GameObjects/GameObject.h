@@ -18,6 +18,7 @@ class GameObject {
 private:
     PhysicsComponent* physicsComponent;
     RenderableComponent* renderableComponent;
+    InputComponent* inputComponent;
     
 public:
     GameObject() {
@@ -27,14 +28,15 @@ public:
     ~GameObject() {
         if (physicsComponent) { delete physicsComponent; }
         if (renderableComponent) { delete renderableComponent; }
+        if (inputComponent) { delete inputComponent; }
     }
     
     void update(float elapsedTime) {
         physicsComponent->update(elapsedTime);
         
+        // Get the position and rotation from the physics engine
         cpVect pos = physicsComponent->getPosition();
         float rot = -cpvtoangle(physicsComponent->getRotation()) * 180 / PI;
-        printf("%f\n", rot);
         renderableComponent->update(elapsedTime, Vector2f(pos.x, pos.y), rot);
     }
     
@@ -46,6 +48,10 @@ public:
                 
             case COMP_TYPE_PHYSICS:
                 return physicsComponent;
+                break;
+                
+            case COMP_TYPE_INPUT:
+                return inputComponent;
                 break;
         }
         
@@ -59,6 +65,10 @@ public:
                 
             case COMP_TYPE_PHYSICS:
                 physicsComponent = (PhysicsComponent*) comp;
+                break;
+                
+            case COMP_TYPE_INPUT:
+                inputComponent = (InputComponent*) comp;
                 break;
         }
     }

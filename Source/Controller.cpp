@@ -11,6 +11,7 @@
 #include "GameObjects/GameObject.h"
 #include "Renderer.h"
 #include "ResourceHandler.h"
+#include "InputHandler.h"
 #include <math.h>
 #include <stdio.h>
 
@@ -20,6 +21,7 @@ Controller::Controller() {
     
     renderer = new Renderer(window);
     resourceHandler = new ResourceHandler();
+    inputHandler = new InputHandler();
     
     resourceHandler->loadResources();
     initializeObjects();
@@ -91,16 +93,26 @@ void Controller::initializeObjects() {
     // Add a static line segment shape for the ground.
      // We'll make it slightly tilted so the ball will roll off.
      // We attach it to space->staticBody to tell Chipmunk it shouldn't be movable.
-     ground = cpSegmentShapeNew(space->staticBody, cpv(-10, 300), cpv(400, 350), 0);
+     ground = cpSegmentShapeNew(space->staticBody, cpv(-100, 300), cpv(400, 500), 0);
      cpShapeSetFriction(ground, FRICTION_CONSTANT);
      cpSpaceAddShape(space, ground);
      
     
     GameObject* obj = new GameObject();
     sf::Image* img = resourceHandler->getImage("bird");
-    obj->addComponent(new RenderableComponent(img), COMP_TYPE_RENDERABLE);
-    obj->addComponent(new BoxPhysicsComponent(10, 50, 50, 1), COMP_TYPE_PHYSICS);
+    addComponent(obj, new InputComponent(), COMP_TYPE_INPUT);
+    addComponent(obj, new RenderableComponent(img), COMP_TYPE_RENDERABLE);
+    addComponent(obj, new BoxPhysicsComponent(10, 50, 50, 1), COMP_TYPE_PHYSICS);
     PhysicsComponent* comp = (PhysicsComponent*) obj->getComponent(COMP_TYPE_PHYSICS);
     comp->addToSpace(space);
     gameObjects.push_back(obj);
+}
+
+void Controller::addComponent(GameObject* obj, Component* comp, ComponentType type) {
+    switch (type) {
+        case COMP_TYPE_INPUT:
+            inputHandler->registerComponent((InputComponent*) comp);
+            break;
+    }
+    obj->addComponent(comp, type);
 }

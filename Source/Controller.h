@@ -15,7 +15,10 @@
 
 class Renderer;
 class ResourceHandler;
+class InputHandler;
 class GameObject;
+
+#include "Component.h"
 
 class Controller {
 private:
@@ -23,6 +26,7 @@ private:
     
     Renderer* renderer;
     ResourceHandler* resourceHandler;
+    InputHandler* inputHandler;
     
     std::vector<GameObject*> gameObjects;
     
@@ -41,4 +45,5 @@ public:
     void processEvents();
     void loadResources();
     void initializeObjects();
+    void addComponent(GameObject* obj, Component* comp, ComponentType type);
 };

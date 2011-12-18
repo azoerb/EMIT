@@ -12,6 +12,7 @@
 enum ComponentType {
     COMP_TYPE_PHYSICS = 0,
     COMP_TYPE_RENDERABLE,
+    COMP_TYPE_INPUT,
     NUM_COMP_TYPES
 };
 
