@@ -12,6 +12,7 @@
 RenderableComponent::RenderableComponent(sf::Image* img) {
     sprite = new sf::Sprite();
     setImage(img);
+    sprite->SetCenter(img->GetWidth() / 2, img->GetHeight() / 2);
 }
 
 RenderableComponent::~RenderableComponent() {
@@ -26,11 +27,11 @@ sf::Sprite* RenderableComponent::getSprite() {
     return sprite;
 }
 
-void RenderableComponent::update(float elapsedTime, Vector2f pos, Vector2f rot) {
+void RenderableComponent::update(float elapsedTime, Vector2f pos, float rot) {
     updateSprite(pos, rot);
 }
 
-void RenderableComponent::updateSprite(Vector2f pos, Vector2f rot) {
+void RenderableComponent::updateSprite(Vector2f pos, float rot) {
     sprite->SetPosition(pos.x, pos.y);
-    sprite->SetRotation(rot.x);
+    sprite->SetRotation(rot);
 }

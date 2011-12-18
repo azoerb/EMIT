@@ -9,6 +9,8 @@
 
 #pragma once
 
+const float PI = 3.1415;
+
 const int FRICTION_CONSTANT = 1000;
 
 const int WINDOW_WIDTH = 1000;

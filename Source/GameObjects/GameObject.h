@@ -10,6 +10,7 @@
 #pragma once
 
 #include "AllComponents.h"
+#include "Constants.h"
 
 using sf::Vector2f;
 
@@ -32,8 +33,9 @@ public:
         physicsComponent->update(elapsedTime);
         
         cpVect pos = physicsComponent->getPosition();
-        cpVect rot = physicsComponent->getRotation();
-        renderableComponent->update(elapsedTime, Vector2f(pos.x, pos.y), Vector2f(rot.x, rot.y));
+        float rot = -cpvtoangle(physicsComponent->getRotation()) * 180 / PI;
+        printf("%f\n", rot);
+        renderableComponent->update(elapsedTime, Vector2f(pos.x, pos.y), rot);
     }
     
     Component* getComponent(ComponentType type) {

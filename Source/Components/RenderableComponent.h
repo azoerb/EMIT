@@ -18,7 +18,7 @@ class RenderableComponent : public Component {
 private:
     sf::Sprite* sprite;
     
-    void updateSprite(Vector2f pos, Vector2f rot);
+    void updateSprite(Vector2f pos, float rot);
     
 public:
     RenderableComponent(sf::Image* img);
@@ -28,5 +28,5 @@ public:
     
     sf::Sprite* getSprite();
     
-    void update(float elapsedTime, Vector2f pos, Vector2f rot);
+    void update(float elapsedTime, Vector2f pos, float rot);
 };
