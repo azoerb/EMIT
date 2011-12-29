@@ -11,7 +11,7 @@
 
 BoxPhysicsComponent::BoxPhysicsComponent(float mass, float width, float height, float friction) {
     
-    float moment = cpMomentForBox(mass, width, height);
+    float moment = INFINITY; //cpMomentForBox(mass, width, height);
     body = cpBodyNew(mass, moment);
     shape = cpBoxShapeNew(body, width, height);
     

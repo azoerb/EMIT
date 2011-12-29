@@ -9,14 +9,21 @@
 
 #pragma once
 
-#include <vector>
+#include <SFML/Graphics.hpp>
+
+typedef sf::Vector2f vec2;
 
 class InputComponent;
 
 class InputHandler {
 private:
-    std::vector<InputComponent*> components;
+    sf::RenderWindow* window;
     
 public:
-    void registerComponent(InputComponent* comp);
+    InputHandler(sf::RenderWindow* window);
+    void update();
+    
+    bool isKeyDown(sf::Key::Code code);
+    vec2 getMousePosition();
+    bool isMouseButtonDown(sf::Mouse::Button button);
 };

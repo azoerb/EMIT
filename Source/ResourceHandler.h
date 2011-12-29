@@ -14,7 +14,7 @@
 using std::string;
 using sf::Image;
 
-typedef std::pair<string, sf::Image*> imagePair;
+typedef std::pair<string, Image*> imagePair;
 typedef std::map<string, Image*> imageMap;
 
 class ResourceHandler {

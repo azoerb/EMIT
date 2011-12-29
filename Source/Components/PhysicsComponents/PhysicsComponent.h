@@ -64,7 +64,7 @@ public:
         cpBodySetVel(body, vel);
     }
     
-    void update(float elapsedTime) {
-        
+    void update(float elapsedTime, cpVect forceVector) {
+        cpBodyApplyImpulse(body, forceVector, cpv(0.0, 0.0));
     }
 };

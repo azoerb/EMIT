@@ -21,7 +21,7 @@ Controller::Controller() {
     
     renderer = new Renderer(window);
     resourceHandler = new ResourceHandler();
-    inputHandler = new InputHandler();
+    inputHandler = new InputHandler(window);
     
     resourceHandler->loadResources();
     initializeObjects();
@@ -45,31 +45,14 @@ void Controller::mainLoop() {
     }
 }
 
-void Controller::processEvents() {
-    sf::Event Event;
-    while (window->GetEvent(Event)) {
-        if (Event.Type == sf::Event::Closed) {
-            window->Close();
-        }
-    }
-}
-
 void Controller::update() {
-    processEvents();
-    
     elapsedTime = window->GetFrameTime();
-        
+    
+    inputHandler->update();
+            
     // Update objects
     for (int i = 0; i < gameObjects.size(); i++) {
         gameObjects.at(i)->update(elapsedTime);
-    }
-    
-    if (window->GetInput().IsKeyDown(sf::Key::Left)) {
-    
-    }
-    
-    if (window->GetInput().IsKeyDown(sf::Key::Right)) {
-        
     }
     
     cpSpaceStep(space, elapsedTime);
@@ -93,8 +76,8 @@ void Controller::initializeObjects() {
     // Add a static line segment shape for the ground.
      // We'll make it slightly tilted so the ball will roll off.
      // We attach it to space->staticBody to tell Chipmunk it shouldn't be movable.
-     ground = cpSegmentShapeNew(space->staticBody, cpv(-100, 300), cpv(400, 500), 0);
-     cpShapeSetFriction(ground, FRICTION_CONSTANT);
+     ground = cpSegmentShapeNew(space->staticBody, cpv(-100, 300), cpv(400, 400), 0);
+     cpShapeSetFriction(ground, .6);
      cpSpaceAddShape(space, ground);
      
     
@@ -102,7 +85,7 @@ void Controller::initializeObjects() {
     sf::Image* img = resourceHandler->getImage("bird");
     addComponent(obj, new InputComponent(), COMP_TYPE_INPUT);
     addComponent(obj, new RenderableComponent(img), COMP_TYPE_RENDERABLE);
-    addComponent(obj, new BoxPhysicsComponent(10, 50, 50, 1), COMP_TYPE_PHYSICS);
+    addComponent(obj, new BoxPhysicsComponent(100, 50, 50, .6), COMP_TYPE_PHYSICS);
     PhysicsComponent* comp = (PhysicsComponent*) obj->getComponent(COMP_TYPE_PHYSICS);
     comp->addToSpace(space);
     gameObjects.push_back(obj);
@@ -111,7 +94,7 @@ void Controller::initializeObjects() {
 void Controller::addComponent(GameObject* obj, Component* comp, ComponentType type) {
     switch (type) {
         case COMP_TYPE_INPUT:
-            inputHandler->registerComponent((InputComponent*) comp);
+            ((InputComponent*) comp)->registerHandler(inputHandler);
             break;
     }
     obj->addComponent(comp, type);

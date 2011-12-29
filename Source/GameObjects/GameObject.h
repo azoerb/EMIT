@@ -32,7 +32,8 @@ public:
     }
     
     void update(float elapsedTime) {
-        physicsComponent->update(elapsedTime);
+        cpVect forceVector = inputComponent->update();
+        physicsComponent->update(elapsedTime, forceVector);
         
         // Get the position and rotation from the physics engine
         cpVect pos = physicsComponent->getPosition();

@@ -42,7 +42,6 @@ public:
     void mainLoop();
     void update();
     void drawScene();
-    void processEvents();
     void loadResources();
     void initializeObjects();
     void addComponent(GameObject* obj, Component* comp, ComponentType type);

@@ -10,10 +10,15 @@
 #pragma once
 
 #include "Component.h"
+#include "chipmunk.h"
+
+class InputHandler;
 
 class InputComponent : public Component {
 private:
+    InputHandler* handler;
     
 public:
-    
+    void registerHandler(InputHandler* handler);
+    cpVect update();
 };

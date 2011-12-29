@@ -10,6 +10,27 @@
 #include "InputHandler.h"
 #include "InputComponent.h"
 
-void InputHandler::registerComponent(InputComponent* comp) {
-    components.push_back(comp);
+InputHandler::InputHandler(sf::RenderWindow* window) {
+    this->window = window;
+}
+
+void InputHandler::update() {
+    sf::Event Event;
+    while (window->GetEvent(Event)) {
+        if (Event.Type == sf::Event::Closed) {
+            window->Close();
+        }
+    }
+}
+
+bool InputHandler::isKeyDown(sf::Key::Code code) {
+    return window->GetInput().IsKeyDown(code);
+}
+
+vec2 InputHandler::getMousePosition() {
+    return vec2(window->GetInput().GetMouseX(), window->GetInput().GetMouseY());
+}
+
+bool InputHandler::isMouseButtonDown(sf::Mouse::Button button) {
+    return window->GetInput().IsMouseButtonDown(button);
 }
