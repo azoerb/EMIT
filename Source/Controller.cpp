@@ -69,7 +69,7 @@ void Controller::drawScene() {
 }
 
 void Controller::initializeObjects() {
-    cpVect gravity = cpv(0, 1000);
+    cpVect gravity = cpv(0, 100);
     space = cpSpaceNew();
     cpSpaceSetGravity(space, gravity);
     
@@ -77,7 +77,7 @@ void Controller::initializeObjects() {
      // We'll make it slightly tilted so the ball will roll off.
      // We attach it to space->staticBody to tell Chipmunk it shouldn't be movable.
      ground = cpSegmentShapeNew(space->staticBody, cpv(-100, 300), cpv(400, 400), 0);
-     cpShapeSetFriction(ground, .6);
+     cpShapeSetFriction(ground, .95);
      cpSpaceAddShape(space, ground);
      
     
@@ -85,7 +85,7 @@ void Controller::initializeObjects() {
     sf::Image* img = resourceHandler->getImage("bird");
     addComponent(obj, new InputComponent(), COMP_TYPE_INPUT);
     addComponent(obj, new RenderableComponent(img), COMP_TYPE_RENDERABLE);
-    addComponent(obj, new BoxPhysicsComponent(100, 50, 50, .6), COMP_TYPE_PHYSICS);
+    addComponent(obj, new BoxPhysicsComponent(100, 50, 50, .95), COMP_TYPE_PHYSICS);
     PhysicsComponent* comp = (PhysicsComponent*) obj->getComponent(COMP_TYPE_PHYSICS);
     comp->addToSpace(space);
     gameObjects.push_back(obj);
