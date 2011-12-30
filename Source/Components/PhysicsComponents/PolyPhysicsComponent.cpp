@@ -9,13 +9,6 @@
 
 #include "PolyPhysicsComponent.h"
 
-PolyPhysicsComponent::PolyPhysicsComponent(float mass, int numVerts, cpVect* verts, cpVect offset, float friction) {
-    
-    float moment = cpMomentForPoly(mass, numVerts, verts, offset);
-    body = cpBodyNew(mass, moment);
-    shape = cpPolyShapeNew(body, numVerts, verts, offset);
-    
-    // Set the object's position and friction
-    cpBodySetPos(body, cpv(0, 0));
-    cpShapeSetFriction(shape, friction);
+PolyPhysicsComponent::PolyPhysicsComponent(float mass, int numVerts, vec2* verts, vec2 offset, float friction) {
+
 }

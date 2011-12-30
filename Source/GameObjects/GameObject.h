@@ -32,13 +32,13 @@ public:
     }
     
     void update(float elapsedTime) {
-        cpVect forceVector = inputComponent->update();
-        physicsComponent->update(elapsedTime, forceVector);
+        inputComponent->update();
+        //physicsComponent->update(elapsedTime);
         
         // Get the position and rotation from the physics engine
-        cpVect pos = physicsComponent->getPosition();
-        float rot = -cpvtoangle(physicsComponent->getRotation()) * 180 / PI;
-        renderableComponent->update(elapsedTime, Vector2f(pos.x, pos.y), rot);
+        //cpVect pos = physicsComponent->getPosition();
+        //float rot = -cpvtoangle(physicsComponent->getRotation()) * 180 / PI;
+        //renderableComponent->update(elapsedTime, Vector2f(pos.x, pos.y), rot);
     }
     
     Component* getComponent(ComponentType type) {

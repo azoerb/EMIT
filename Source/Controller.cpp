@@ -25,17 +25,59 @@ Controller::Controller() {
     
     resourceHandler->loadResources();
     initializeObjects();
+    
+    // Define the gravity vector.
+	b2Vec2 gravity(0.0f, -10.0f);
+    
+	// Construct a world object, which will hold and simulate the rigid bodies.
+	world = new b2World(gravity);
+    
+	// Define the ground body.
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0.0f, -10.0f);
+    
+	// Call the body factory which allocates memory for the ground body
+	// from a pool and creates the ground box shape (also from a pool).
+	// The body is also added to the world.
+	groundBody = world->CreateBody(&groundBodyDef);
+    
+	// Define the ground box shape.
+	b2PolygonShape groundBox;
+    
+	// The extents are the half-widths of the box.
+	groundBox.SetAsBox(50.0f, 10.0f);
+    
+	// Add the ground fixture to the ground body.
+	groundBody->CreateFixture(&groundBox, 0.0f);
+    
+	// Define the dynamic body. We set its position and call the body factory.
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(0.0f, 4.0f);
+	body = world->CreateBody(&bodyDef);
+    
+	// Define another box shape for our dynamic body.
+	b2PolygonShape dynamicBox;
+	dynamicBox.SetAsBox(1.0f, 1.0f);
+    
+	// Define the dynamic body fixture.
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &dynamicBox;
+    
+	// Set the box density to be non-zero, so it will be dynamic.
+	fixtureDef.density = 1.0f;
+    
+	// Override the default friction.
+	fixtureDef.friction = 0.3f;
+    
+	// Add the shape to the body.
+	body->CreateFixture(&fixtureDef);
 }
 
 Controller::~Controller() {
     if (window) { delete window; }
     if (renderer) { delete renderer; }
     if (resourceHandler) { delete resourceHandler; }
-    
-    
-    // Clean up our objects and exit!
-    cpShapeFree(ground);
-    cpSpaceFree(space);
 }
 
 void Controller::mainLoop() {
@@ -49,13 +91,19 @@ void Controller::update() {
     elapsedTime = window->GetFrameTime();
     
     inputHandler->update();
+    
+    world->Step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+    
+    // Now print the position and angle of the body.
+    b2Vec2 position = body->GetPosition();
+    float32 angle = body->GetAngle();
+    
+    printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
             
     // Update objects
     for (int i = 0; i < gameObjects.size(); i++) {
         gameObjects.at(i)->update(elapsedTime);
-    }
-    
-    cpSpaceStep(space, elapsedTime);
+    }    
 }
 
 void Controller::drawScene() {
@@ -69,25 +117,13 @@ void Controller::drawScene() {
 }
 
 void Controller::initializeObjects() {
-    cpVect gravity = cpv(0, 100);
-    space = cpSpaceNew();
-    cpSpaceSetGravity(space, gravity);
-    
-    // Add a static line segment shape for the ground.
-     // We'll make it slightly tilted so the ball will roll off.
-     // We attach it to space->staticBody to tell Chipmunk it shouldn't be movable.
-     ground = cpSegmentShapeNew(space->staticBody, cpv(-100, 300), cpv(400, 400), 0);
-     cpShapeSetFriction(ground, .95);
-     cpSpaceAddShape(space, ground);
-     
-    
     GameObject* obj = new GameObject();
     sf::Image* img = resourceHandler->getImage("bird");
     addComponent(obj, new InputComponent(), COMP_TYPE_INPUT);
     addComponent(obj, new RenderableComponent(img), COMP_TYPE_RENDERABLE);
-    addComponent(obj, new BoxPhysicsComponent(100, 50, 50, .95), COMP_TYPE_PHYSICS);
-    PhysicsComponent* comp = (PhysicsComponent*) obj->getComponent(COMP_TYPE_PHYSICS);
-    comp->addToSpace(space);
+    //addComponent(obj, new BoxPhysicsComponent(100, 50, 50, .95), COMP_TYPE_PHYSICS);
+    //PhysicsComponent* comp = (PhysicsComponent*) obj->getComponent(COMP_TYPE_PHYSICS);
+    //comp->addToSpace(space);
     gameObjects.push_back(obj);
 }
 

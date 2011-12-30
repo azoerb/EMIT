@@ -10,61 +10,47 @@
 #pragma once
 
 #include "Component.h"
-#include <chipmunk.h>
+#include <SFML/Graphics.hpp>
+
+typedef sf::Vector2f vec2;
 
 class PhysicsComponent : public Component {
 protected:
-    cpBody* body;
-    cpShape* shape;
     
 public:
     PhysicsComponent() {}
     
-    ~PhysicsComponent() {
-        cpShapeFree(shape);
-        cpBodyFree(body);
+    ~PhysicsComponent() {}
+    
+    vec2 getPosition() {
     }
     
-    void addToSpace(cpSpace* space) {
-        cpSpaceAddBody(space, body);
-        cpSpaceAddShape(space, shape);
+    vec2 getVelocity() {
     }
     
-    cpVect getPosition() {
-        return cpBodyGetPos(body); 
+    vec2 getRotation() {
     }
     
-    cpVect getVelocity() {
-        return cpBodyGetVel(body);   
+    void setPosition(vec2 pos) {
     }
     
-    cpVect getRotation() {
-        return cpBodyGetRot(body);
+    void setVelocity(vec2 vel) {
     }
     
-    void setPosition(cpVect pos) {
-        cpBodySetPos(body, pos);
-    }
-    
-    void setVelocity(cpVect vel) {
-        cpBodySetVel(body, vel);
-    }
-    
-    void changePosition(cpVect offset) {
-        cpVect pos = getPosition();
+    void changePosition(vec2 offset) {
+        vec2 pos = getPosition();
         pos.x += offset.x;
         pos.y += offset.y;
-        cpBodySetPos(body, pos);
+        //cpBodySetPos(body, pos);
     }
     
-    void changeVelocity(cpVect offset) {
-        cpVect vel = getVelocity();
+    void changeVelocity(vec2 offset) {
+        vec2 vel = getVelocity();
         vel.x += offset.x;
         vel.y += offset.y;
-        cpBodySetVel(body, vel);
+        //cpBodySetVel(body, vel);
     }
     
-    void update(float elapsedTime, cpVect forceVector) {
-        cpBodyApplyImpulse(body, forceVector, cpv(0.0, 0.0));
+    void update(float elapsedTime) {
     }
 };

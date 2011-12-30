@@ -10,15 +10,14 @@
 #pragma once
 
 #include "Constants.h"
+#include "Component.h"
 #include <SFML/Graphics.hpp>
-#include <chipmunk.h>
+#include "Box2D.h"
 
 class Renderer;
 class ResourceHandler;
 class InputHandler;
 class GameObject;
-
-#include "Component.h"
 
 class Controller {
 private:
@@ -30,10 +29,11 @@ private:
     
     std::vector<GameObject*> gameObjects;
     
-    float elapsedTime;
+    b2World* world;
+    b2Body* groundBody;
+    b2Body* body;
     
-    cpSpace* space;
-    cpShape *ground;
+    float elapsedTime;
     
 public:
     Controller();

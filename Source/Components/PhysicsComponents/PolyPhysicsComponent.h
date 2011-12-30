@@ -15,5 +15,5 @@ class PolyPhysicsComponent : public PhysicsComponent {
 private:
     
 public:
-    PolyPhysicsComponent(float mass, int numVerts, cpVect* verts, cpVect offset, float friction);
+    PolyPhysicsComponent(float mass, int numVerts, vec2* verts, vec2 offset, float friction);
 };
