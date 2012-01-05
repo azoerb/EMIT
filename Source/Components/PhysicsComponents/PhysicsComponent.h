@@ -34,13 +34,9 @@ public:
     
     float getRotation();
     
-    void setPosition(vec2 pos);
+    void setBody(vec2 pos, float angle);
     
     void setVelocity(vec2 vel);
-    
-    void changePosition(vec2 offset);
-    
-    void changeVelocity(vec2 offset);
-    
+        
     void update(float elapsedTime);
 };

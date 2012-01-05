@@ -71,26 +71,12 @@ float PhysicsComponent::getRotation() {
     return body->GetAngle() * 180 / PI;
 }
 
-void PhysicsComponent::setPosition(vec2 pos) {
-
+void PhysicsComponent::setBody(vec2 pos, float angle) {
+    body->SetTransform(b2Vec2(pos.x, pos.y), angle * PI / 180);
 }
 
 void PhysicsComponent::setVelocity(vec2 vel) {
     
-}
-
-void PhysicsComponent::changePosition(vec2 offset) {
-    vec2 pos = getPosition();
-    pos.x += offset.x;
-    pos.y += offset.y;
-    setPosition(pos);
-}
-
-void PhysicsComponent::changeVelocity(vec2 offset) {
-    vec2 vel = getLinearVelocity();
-    vel.x += offset.x;
-    vel.y += offset.y;
-    setVelocity(vel);
 }
 
 void PhysicsComponent::update(float elapsedTime) {

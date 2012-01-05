@@ -3,8 +3,8 @@
 DebugDraw::DebugDraw(sf::RenderTarget &target) 
 : target(target) 
 { 
-    //SetFlags(e_shapeBit | e_jointBit | e_centerOfMassBit /*| e_aabbBit*/); 
-    SetFlags(0xFFFF); 
+    SetFlags(e_shapeBit | e_jointBit | e_centerOfMassBit /*| e_aabbBit*/); 
+    //SetFlags(0xFFFF); 
 } 
 
 void DebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) 

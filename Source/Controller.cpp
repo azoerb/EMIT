@@ -76,8 +76,8 @@ void Controller::initializeObjects() {
     GameObject* floor = new GameObject();
     b2Vec2 verts[3];
     verts[0].Set(0.0, 0.0);
-    verts[2].Set(10.0, 10.0);
-    verts[1].Set(20.0, 10.0);
+    verts[2].Set(10.0, 5.0);
+    verts[1].Set(20.0, 5.0);
     addComponent(floor, new PhysicsComponent(world, 100.0, 50.0, verts, 3, 0.0, .6), COMP_TYPE_PHYSICS);
     gameObjects.push_back(floor);
     
