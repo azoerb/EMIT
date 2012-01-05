@@ -22,7 +22,9 @@ private:
     
 public:
     GameObject() {
-        
+        physicsComponent = NULL;
+        renderableComponent = NULL;
+        inputComponent = NULL;
     }
     
     ~GameObject() {
@@ -32,13 +34,15 @@ public:
     }
     
     void update(float elapsedTime) {
-        inputComponent->update();
-        //physicsComponent->update(elapsedTime);
+        if (inputComponent) {
+            inputComponent->update();
+        }
         
-        // Get the position and rotation from the physics engine
-        //cpVect pos = physicsComponent->getPosition();
-        //float rot = -cpvtoangle(physicsComponent->getRotation()) * 180 / PI;
-        //renderableComponent->update(elapsedTime, Vector2f(pos.x, pos.y), rot);
+        if (physicsComponent && renderableComponent) {
+            vec2 pos = physicsComponent->getPosition();
+            float rot = physicsComponent->getRotation();
+            renderableComponent->update(elapsedTime, pos, rot);
+        }
     }
     
     Component* getComponent(ComponentType type) {

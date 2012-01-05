@@ -17,3 +17,5 @@ const int WINDOW_HEIGHT = 800;
 const int VELOCITY_ITERATIONS = 8;
 const int POSITION_ITERATIONS = 3;
 const float TIME_STEP = 1.0 / 60.0;
+
+const float PIXELS_PER_METER = 30;

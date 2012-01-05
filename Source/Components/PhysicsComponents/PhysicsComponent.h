@@ -11,46 +11,37 @@
 
 #include "Component.h"
 #include <SFML/Graphics.hpp>
+#include "Box2D.h"
+#include "Constants.h"
 
 typedef sf::Vector2f vec2;
 
 class PhysicsComponent : public Component {
 protected:
+    b2Body* body;
+    b2Shape* shape;
+    b2World* world;
     
-public:
-    PhysicsComponent() {}
+public:    
+    PhysicsComponent(b2World* world, float x, float y, float height, float width, float density, float friction);
     
-    ~PhysicsComponent() {}
+    PhysicsComponent(b2World* world, float x, float y, b2Vec2* vertices, int numVerts, float density, float friction);
     
-    vec2 getPosition() {
-    }
+    ~PhysicsComponent();
     
-    vec2 getVelocity() {
-    }
+    vec2 getPosition();
     
-    vec2 getRotation() {
-    }
+    vec2 getLinearVelocity();
     
-    void setPosition(vec2 pos) {
-    }
+    float getRotation();
     
-    void setVelocity(vec2 vel) {
-    }
+    void setPosition(vec2 pos);
     
-    void changePosition(vec2 offset) {
-        vec2 pos = getPosition();
-        pos.x += offset.x;
-        pos.y += offset.y;
-        //cpBodySetPos(body, pos);
-    }
+    void setVelocity(vec2 vel);
     
-    void changeVelocity(vec2 offset) {
-        vec2 vel = getVelocity();
-        vel.x += offset.x;
-        vel.y += offset.y;
-        //cpBodySetVel(body, vel);
-    }
+    void changePosition(vec2 offset);
     
-    void update(float elapsedTime) {
-    }
+    void changeVelocity(vec2 offset);
+    
+    void update(float elapsedTime);
 };

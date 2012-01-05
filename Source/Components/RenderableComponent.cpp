@@ -33,5 +33,5 @@ void RenderableComponent::update(float elapsedTime, Vector2f pos, float rot) {
 
 void RenderableComponent::updateSprite(Vector2f pos, float rot) {
     sprite->SetPosition(pos.x, pos.y);
-    sprite->SetRotation(rot);
+    sprite->SetRotation(-rot);
 }

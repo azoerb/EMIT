@@ -11,6 +11,4 @@
 
 #include "RenderableComponent.h"
 #include "InputComponent.h"
-#include "PolyPhysicsComponent.h"
-#include "BoxPhysicsComponent.h"
-#include "CirclePhysicsComponent.h"
+#include "PhysicsComponent.h"

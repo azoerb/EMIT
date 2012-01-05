@@ -4,13 +4,14 @@
  *
  *  Created by Andrew Zoerb on 11/8/11.
  *  Copyright 2011 Zoerbsoft. All rights reserved.
- *
+ *  http://www.kobold2d.com/display/KKDOC/Box2D+API+Reference
  */
 
 #pragma once
 
 #include "Constants.h"
 #include "Component.h"
+#include "DebugDraw.h"
 #include <SFML/Graphics.hpp>
 #include "Box2D.h"
 
@@ -22,6 +23,7 @@ class GameObject;
 class Controller {
 private:
     sf::RenderWindow* window;
+    DebugDraw* debugDraw;
     
     Renderer* renderer;
     ResourceHandler* resourceHandler;
@@ -31,7 +33,6 @@ private:
     
     b2World* world;
     b2Body* groundBody;
-    b2Body* body;
     
     float elapsedTime;
     
