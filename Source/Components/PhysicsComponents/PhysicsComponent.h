@@ -19,7 +19,6 @@ typedef sf::Vector2f vec2;
 class PhysicsComponent : public Component {
 protected:
     b2Body* body;
-    b2Shape* shape;
     b2World* world;
     
 public:    

@@ -54,7 +54,6 @@ PhysicsComponent::PhysicsComponent(b2World* world, float x, float y, b2Vec2* ver
 }
 
 PhysicsComponent::~PhysicsComponent() {
-    if (shape) { delete shape; }
     if (body) { world->DestroyBody(body); }
 }
 

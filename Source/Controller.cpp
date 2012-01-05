@@ -47,7 +47,7 @@ void Controller::update() {
     
     inputHandler->update();
     
-    world->Step(TIME_STEP / 5, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+    world->Step(TIME_STEP / TIME_STEP_SLOW_FACTOR, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
                 
     // Update objects
     for (int i = 0; i < gameObjects.size(); i++) {
@@ -78,7 +78,7 @@ void Controller::initializeObjects() {
     verts[0].Set(0.0, 0.0);
     verts[2].Set(10.0, 10.0);
     verts[1].Set(20.0, 10.0);
-    addComponent(floor, new PhysicsComponent(world, 100.0, 0.0, verts, 3, 0.0, .6), COMP_TYPE_PHYSICS);
+    addComponent(floor, new PhysicsComponent(world, 100.0, 50.0, verts, 3, 0.0, .6), COMP_TYPE_PHYSICS);
     gameObjects.push_back(floor);
     
     
