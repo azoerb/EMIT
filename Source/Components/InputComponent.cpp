@@ -14,11 +14,16 @@ void InputComponent::registerHandler(InputHandler* handler) {
     this->handler = handler;
 }
 
+void InputComponent::assignAction(sf::Key::Code key, void (*action)()) {
+    map.insert(actionPair(key, action));
+}
+
 void InputComponent::update() {
-    if (handler->isKeyDown(sf::Key::Right)) {
-    } else if (handler->isKeyDown(sf::Key::Left)) {
-    } else if (handler->isKeyDown(sf::Key::Down)) {
-    } else if (handler->isKeyDown(sf::Key::Up)) {
-    } else {
+    actionMap::iterator iter;
+    for (iter = map.begin(); iter != map.end(); iter++) {
+        if (handler->isKeyDown(iter->first)) {
+            // Perform the action
+            iter->second();
+        }
     }
 }

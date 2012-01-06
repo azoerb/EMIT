@@ -10,14 +10,22 @@
 #pragma once
 
 #include "Component.h"
+#include <map>
+#include <SFML/Graphics.hpp>
+
+typedef void (*action)();
+typedef std::map<sf::Key::Code, action> actionMap;
+typedef std::pair<sf::Key::Code, action> actionPair;
 
 class InputHandler;
 
 class InputComponent : public Component {
 private:
     InputHandler* handler;
+    actionMap map;
     
 public:
     void registerHandler(InputHandler* handler);
+    void assignAction(sf::Key::Code key, void (*action)());
     void update();
 };
