@@ -45,5 +45,4 @@ public:
     void drawScene();
     void loadResources();
     void initializeObjects();
-    void addComponent(GameObject* obj, Component* comp, ComponentType type);
 };

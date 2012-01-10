@@ -9,8 +9,9 @@
 
 #include "InputComponent.h"
 #include "InputHandler.h"
+#include "GameObject.h"
 
-void InputComponent::registerHandler(InputHandler* handler) {
+InputComponent::InputComponent(InputHandler* handler) {
     this->handler = handler;
 }
 
@@ -23,7 +24,8 @@ void InputComponent::update() {
     for (iter = map.begin(); iter != map.end(); iter++) {
         if (handler->isKeyDown(iter->first)) {
             // Perform the action
-            iter->second();
+            //GameObject p = *parent;
+            //(p.*p.(iter->second))();
         }
     }
 }

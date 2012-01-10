@@ -15,7 +15,7 @@
 using sf::Vector2f;
 
 class GameObject {
-private:
+protected:
     PhysicsComponent* physicsComponent;
     RenderableComponent* renderableComponent;
     InputComponent* inputComponent;

@@ -25,7 +25,7 @@ private:
     actionMap map;
     
 public:
-    void registerHandler(InputHandler* handler);
+    InputComponent(InputHandler* handler);
     void assignAction(sf::Key::Code key, void (*action)());
     void update();
 };
