@@ -2,8 +2,8 @@
  *  InputComponent.h
  *  EMIT
  *
- *  Created by Andrew Zoerb on 12/18/11.
- *  Copyright 2011 Zoerbsoft. All rights reserved.
+ *  Created by Andrew Zoerb on 1/13/12.
+ *  Copyright 2012 Zoerbsoft. All rights reserved.
  *
  */
 
@@ -13,19 +13,13 @@
 #include <map>
 #include <SFML/Graphics.hpp>
 
-typedef void (*action)();
-typedef std::map<sf::Key::Code, action> actionMap;
-typedef std::pair<sf::Key::Code, action> actionPair;
 
 class InputHandler;
 
 class InputComponent : public Component {
-private:
+protected:
     InputHandler* handler;
-    actionMap map;
     
 public:
-    InputComponent(InputHandler* handler);
-    void assignAction(sf::Key::Code key, void (*action)());
-    void update();
+    virtual void update() = 0;
 };

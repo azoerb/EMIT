@@ -10,5 +10,5 @@
 #pragma once
 
 #include "RenderableComponent.h"
-#include "InputComponent.h"
+#include "PlayerInputComponent.h"
 #include "PhysicsComponent.h"

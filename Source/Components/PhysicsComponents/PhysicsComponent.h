@@ -37,6 +37,8 @@ public:
     void setBody(vec2 pos, float angle);
     
     void setVelocity(vec2 vel);
+    
+    void applyImpulse(b2Vec2 impulse);
         
     void update(float elapsedTime);
 };

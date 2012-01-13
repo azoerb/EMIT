@@ -79,5 +79,9 @@ void PhysicsComponent::setVelocity(vec2 vel) {
     
 }
 
+void PhysicsComponent::applyImpulse(b2Vec2 impulse) {
+    body->ApplyLinearImpulse(impulse, body->GetPosition());
+}
+
 void PhysicsComponent::update(float elapsedTime) {
 }
