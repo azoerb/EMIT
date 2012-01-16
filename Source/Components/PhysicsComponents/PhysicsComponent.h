@@ -12,7 +12,6 @@
 #include "Component.h"
 #include <SFML/Graphics.hpp>
 #include "Box2D.h"
-#include "Constants.h"
 
 typedef sf::Vector2f vec2;
 
@@ -22,9 +21,9 @@ protected:
     b2World* world;
     
 public:    
-    PhysicsComponent(b2World* world, float x, float y, float height, float width, float density, float friction);
+    PhysicsComponent(GameObject* parent, b2World* world, float x, float y, float height, float width, float density, float friction);
     
-    PhysicsComponent(b2World* world, float x, float y, b2Vec2* vertices, int numVerts, float density, float friction);
+    PhysicsComponent(GameObject* parent, b2World* world, float x, float y, b2Vec2* vertices, int numVerts, float density, float friction);
     
     ~PhysicsComponent();
     

@@ -9,5 +9,4 @@
 
 #pragma once
 
-#include "GameObject.h"
 #include "PlayerTemplate.h"

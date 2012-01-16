@@ -21,7 +21,7 @@ private:
     void updateSprite(Vector2f pos, float rot);
     
 public:
-    RenderableComponent(sf::Image* img);
+    RenderableComponent(GameObject* parent, sf::Image* img);
     ~RenderableComponent();
     
     void setImage(sf::Image* img);

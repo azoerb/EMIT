@@ -9,7 +9,7 @@
 
 #include "PhysicsComponent.h"
 
-PhysicsComponent::PhysicsComponent(b2World* world, float x, float y, float height, float width, float density, float friction) {
+PhysicsComponent::PhysicsComponent(GameObject* parent, b2World* world, float x, float y, float height, float width, float density, float friction) : Component(parent){
     this->world = world;
     
     b2BodyDef bodyDef;
@@ -31,7 +31,7 @@ PhysicsComponent::PhysicsComponent(b2World* world, float x, float y, float heigh
     body->CreateFixture(&fixtureDef);
 }
 
-PhysicsComponent::PhysicsComponent(b2World* world, float x, float y, b2Vec2* vertices, int numVerts, float density, float friction) {
+PhysicsComponent::PhysicsComponent(GameObject* parent, b2World* world, float x, float y, b2Vec2* vertices, int numVerts, float density, float friction) : Component(parent){
     this->world = world;
     
     b2BodyDef bodyDef;

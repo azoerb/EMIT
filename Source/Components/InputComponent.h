@@ -21,5 +21,6 @@ protected:
     InputHandler* handler;
     
 public:
+    InputComponent(GameObject* parent) : Component(parent) {}
     virtual void update() = 0;
 };

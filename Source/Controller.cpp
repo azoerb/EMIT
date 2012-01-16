@@ -79,13 +79,13 @@ void Controller::initializeObjects() {
     debugDraw = new DebugDraw(*window);
     world->SetDebugDraw(debugDraw);
     
-    /*GameObject* floor = new GameObject();
+    GameObject* floor = new GameObject();
     b2Vec2 verts[3];
     verts[0].Set(0.0, 0.0);
     verts[2].Set(10.0, 5.0);
     verts[1].Set(20.0, 5.0);
-    floor->addComponent(new PhysicsComponent(world, 100.0, 300.0, verts, 3, 0.0, .6), COMP_TYPE_PHYSICS);
-    gameObjects.push_back(floor);*/
+    floor->addComponent(new PhysicsComponent(floor, world, 100.0, 300.0, verts, 3, 0.0, .6), COMP_TYPE_PHYSICS);
+    gameObjects.push_back(floor);
     
     PlayerTemplate* player = new PlayerTemplate();
     gameObjects.push_back(player->create(world, inputHandler, resourceHandler));

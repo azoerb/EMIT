@@ -23,7 +23,7 @@ private:
     void moveLeft();
     
 public:
-    PlayerInputComponent(InputHandler* handler);
+    PlayerInputComponent(GameObject* parent, InputHandler* handler);
     void assignAction(sf::Key::Code key, void (*action)());
     void update();
 };

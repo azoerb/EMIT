@@ -9,6 +9,13 @@
 
 #pragma once
 
+enum ComponentType {
+    COMP_TYPE_PHYSICS = 0,
+    COMP_TYPE_RENDERABLE,
+    COMP_TYPE_INPUT,
+    NUM_COMP_TYPES
+};
+
 const float PI = 3.1415;
 
 const int WINDOW_WIDTH = 1000;

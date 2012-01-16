@@ -9,6 +9,7 @@
 
 #include "Renderer.h"
 #include "GameObject.h"
+#include "RenderableComponent.h"
 
 Renderer::Renderer(sf::RenderWindow* window) {
     this->window = window;

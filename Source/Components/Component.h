@@ -9,20 +9,14 @@
 
 #pragma once
 
-enum ComponentType {
-    COMP_TYPE_PHYSICS = 0,
-    COMP_TYPE_RENDERABLE,
-    COMP_TYPE_INPUT,
-    NUM_COMP_TYPES
-};
-
-class GameObject;
+#include "GameObject.h"
 
 class Component {
 protected:
 	GameObject* parent;
     
 public:
+    Component(GameObject* parent) { this->parent = parent; }
 	inline GameObject* getParent() { return parent; }
     inline void setParent(GameObject* parent) { this->parent = parent; }
 };

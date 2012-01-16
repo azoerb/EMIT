@@ -9,7 +9,7 @@
 
 #include "RenderableComponent.h"
 
-RenderableComponent::RenderableComponent(sf::Image* img) {
+RenderableComponent::RenderableComponent(GameObject* parent, sf::Image* img) : Component(parent) {
     sprite = new sf::Sprite();
     setImage(img);
     sprite->SetCenter(img->GetWidth() / 2, img->GetHeight() / 2);
